@@ -31,10 +31,16 @@ print(data.isnull().sum())
 
 
 #plotting the counts of categorical data
-fig, axes = plt.subplots(figsize=(50,4), nrows=1, ncols=6)
-for i, cat in enumerate(list_of_categorical_cols):
-    sns.countplot(data[cat], ax=axes[i])
-    axes[i].tick_params(axis='y', labelsize=7)
+fig, axes = plt.subplots(figsize=(20,10), nrows=2, ncols=3)
+colour = ["Red","Blue","Green","Yellow","Orange","Pink"]
+k = 0
+for i in range(2):
+    for j in range(3):
+        cat = list_of_categorical_cols[k]
+        sns.set_style("dark")
+        sns.countplot(data[cat], ax=axes[i][j], color=colour[k])
+        k += 1
+plt.tight_layout()
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\CountPlots.png")
 
 
@@ -55,29 +61,31 @@ plt.tight_layout()
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\Age.png")
 
 #Creating a box plot between age and credit amount
+fig = plt.figure(figsize=(8,8))
+axes = fig.add_axes([0.1,0.1,0.9,0.9])
 interval = (18, 25, 35, 60, 120)
 cats = ['Student', 'Young', 'Adult', 'Senior']
 data["age_cat"] = pd.cut(data["Age"],interval,labels=cats)
-sns.boxplot(x="age_cat", y="Credit amount", hue="Risk", data=data)
-plt.savefig(r"D:\Project\GradientBoost\Visualisations\Cat_age.png")
+sns.boxplot(x="age_cat", y="Credit amount", hue="Risk", data=data,ax=axes,color="Blue")
+fig.savefig(r"D:\Project\GradientBoost\Visualisations\Cat_age.png")
 
 
 #Housing attribute analysis
 fig, axes = plt.subplots(figsize=(10,5),nrows=1,ncols=2)
 df_good = data.loc[data["Risk"] == 'good']["Housing"]
 df_bad = data.loc[data["Risk"] == 'bad']["Housing"]
-sns.countplot(data=data,y="Housing",hue="Risk", ax=axes[0])
-sns.violinplot(data=data,x="Housing",y="Credit amount",hue="Risk",split=True, ax=axes[1])
+sns.countplot(data=data,y="Housing",hue="Risk", ax=axes[0],color="Blue")
+sns.violinplot(data=data,x="Housing",y="Credit amount",hue="Risk",split=True, ax=axes[1],color="Blue")
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\Housing.png")
 
 #Gender attribute analysis
 fig, axes = plt.subplots(figsize=(10,5),nrows=1,ncols=2)
-sns.countplot(data=data,y="Sex",hue="Risk",ax=axes[0])
-sns.boxplot(data=data,x="Sex",y="Credit amount",hue='Risk',ax=axes[1])
+sns.countplot(data=data,y="Sex",hue="Risk",ax=axes[0],color="Red")
+sns.boxplot(data=data,x="Sex",y="Credit amount",hue='Risk',ax=axes[1],color="Red")
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\Gender.png")
 
 #Job attribute analysis
-fig, axes = plt.subplots(figsize=(20,5),nrows=1,ncols=3)
+fig, axes = plt.subplots(figsize=(15,5),nrows=1,ncols=3)
 sns.countplot(data=data,y="Job",hue="Risk",ax=axes[0])
 sns.boxplot(data=data,x="Job",y="Credit amount",hue="Risk",ax=axes[1])
 sns.violinplot(data=data,x="Job",y="Credit amount",hue="Risk",ax=axes[2],split=True)
@@ -88,23 +96,21 @@ fig = plt.figure(figsize=(6,6))
 good_cred = (data.loc[data["Risk"] == "good"]["Credit amount"])
 bad_cred = (data.loc[data["Risk"] == "bad"]["Credit amount"])
 sns.distplot(good_cred,hist=False,label="good")
-sns.rugplot(good_cred)
 sns.distplot(bad_cred,color='Orange',hist=False,label="bad")
-sns.rugplot(bad_cred)
 plt.legend()
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\Credit_dist.png")
 
 #Saving accounts attribute
-fig, axes = plt.subplots(figsize=(20,5),nrows=1,ncols=3)
-sns.countplot(data=data,y="Saving accounts",hue="Risk",ax=axes[0])
-sns.boxplot(data=data,x="Saving accounts",y="Credit amount",hue="Risk",ax = axes[1])
-sns.boxplot(data=data,x="Saving accounts",y="Age",hue="Risk",ax=axes[2])
+fig, axes = plt.subplots(figsize=(15,5),nrows=1,ncols=3)
+sns.countplot(data=data,y="Saving accounts",hue="Risk",ax=axes[0],color="Green")
+sns.boxplot(data=data,x="Saving accounts",y="Credit amount",hue="Risk",ax = axes[1],color="Green")
+sns.boxplot(data=data,x="Saving accounts",y="Age",hue="Risk",ax=axes[2],color="Green")
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\Saving_acc.png")
 
 #purpose
-fig, axes = plt.subplots(figsize=(20,5),nrows=1,ncols=2)
-sns.countplot(data=data,y="Purpose",hue="Risk",ax=axes[0])
-sns.boxplot(data=data,x="Purpose",y="Credit amount",hue="Risk",ax = axes[1])
+fig, axes = plt.subplots(figsize=(15,5),nrows=1,ncols=2)
+sns.countplot(data=data,y="Purpose",hue="Risk",ax=axes[0],color="Orange")
+sns.boxplot(data=data,x="Purpose",y="Credit amount",hue="Risk",ax = axes[1],color="Orange")
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\purpose.png")
 
 #duration
@@ -120,9 +126,9 @@ fig.savefig(r"D:\Project\GradientBoost\Visualisations\duration.png")
 
 #checking account
 fig, axes = plt.subplots(figsize=(10,20),nrows=3,ncols=1)
-sns.countplot(data=data,x="Checking account",hue="Risk",ax=axes[0])
-sns.violinplot(data=data,x="Checking account",y="Age",hue="Risk",split=True,ax=axes[1])
-sns.boxplot(data=data,x="Checking account",y="Credit amount",hue="Risk",ax=axes[2])
+sns.countplot(data=data,x="Checking account",hue="Risk",ax=axes[0],color="Yellow")
+sns.violinplot(data=data,x="Checking account",y="Age",hue="Risk",split=True,ax=axes[1],color="Yellow")
+sns.boxplot(data=data,x="Checking account",y="Credit amount",hue="Risk",ax=axes[2],color="Yellow")
 fig.savefig(r"D:\Project\GradientBoost\Visualisations\Checking_acc.png")
 
 data, cols = one_hot_encoder(data)
