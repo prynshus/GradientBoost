@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from seaborn import rugplot
 from oneHotEncoding import one_hot_encoder
 
 #reading the data

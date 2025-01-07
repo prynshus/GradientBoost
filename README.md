@@ -1,4 +1,4 @@
-# Credit risk prediction using gradient boositng
+# Credit risk prediction using gradient boosting
 
 This project delves into the comprehensive analysis of credit risk data to accurately predict the likelihood of loan defaults. By leveraging the power of gradient boosting algorithms, we aim to model complex relationships within the data, ensuring robust and reliable predictions. Our primary objective is to optimize the model's accuracy, thereby enhancing risk assessment processes and enabling financial institutions to make informed lending decisions with greater confidence.
 
@@ -86,4 +86,28 @@ The heatmap looks like this.
 
 ![Heatmap.png](Visualisations/Heatmap.png)
 
-## Training the Gradient boost model
+## Gradient boost
+
+Gradient Boosting is an ensemble learning technique that combines multiple weak learners (typically shallow decision trees) to build a strong predictive model. It is based on the principle of sequential model optimization and uses gradient descent to minimize a loss function.
+
+In our case we are using XGBoost which is also called extreme gradient boosting.
+
+In the GradientBoost.py file first we create X and y dataframes where X is matrix in which target variable "Risk_good" is dropped and y is vector in which this target variable is added.
+
+Now to split our data X and y in the ratio of 0.75 as training set and 0.25 as testing set we use sklearn module's "train_test_split" function.
+
+Next we import XGBClassifier since in our case we have to classify the dataset.
+We create an instance of XGBClassifier with a parameter called random state to ensure reproducibility.
+Then we pass/fit our dataset in this instance to train the model.
+Next we pass our test dataset to get the required results.
+
+Using the accuracy metrics we get an accuracy of 68.8%
+
+And the confusion matrix is:
+
+![Conf_Matrix.png](Visualisations/Conf_Matrix.png)
+
+Means out of 250 test samples 51 is predicted good instead of bad and 21 is predicted bad instead of good.
+
+## Future improvement
+We can use grid search and try for different parameteres to get good accuracy.
